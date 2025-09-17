@@ -1,0 +1,28 @@
+.text-node {
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.text-node .node-header {
+  background: rgba(139, 92, 246, 0.2);
+  border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+}
+
+.text-node-content {
+  width: 100%;
+}
+
+.text-area {
+  min-height: 60px;
+  resize: vertical;
+}
+
+.variables-info {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  padding: 4px;
+  background: rgba(139, 92, 246, 0.1);
+  border-radius: 4px;
+  border: 1px dashed rgba(139, 92, 246, 0.3);
+}

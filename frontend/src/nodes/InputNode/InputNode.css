@@ -1,0 +1,18 @@
+.input-node {
+  background: rgba(16, 185, 129, 0.1);
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.input-node .node-header {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.input-node:hover {
+  border-color: var(--accent-success);
+  box-shadow: 0 0 0 1px var(--accent-success);
+}
+
+.input-node .node-handle.source {
+  background: var(--accent-success);
+}
