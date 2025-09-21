@@ -96,38 +96,17 @@ Vector-Shift/
 │ │ │ ├── Toolbar.css
 │ │ │ └── Toolbar.jsx
 │ │ │
-│ │ ├── hooks/
-│ │ │ ├── useNodeField.jsx
-│ │ │ ├── useNodeResize.jsx
-│ │ │ └── useTemplateVariables.jsx
-│ │ │
+│ │ ├── utils/
+│ │ │ └── handleutils.js
 │ │ ├── nodes/
-│ │ │ ├── ApiNode/
-│ │ │ │ ├── ApiNode.css
 │ │ │ │ └── ApiNode.jsx
-│ │ │ ├── ConditionalNode/
-│ │ │ │ ├── ConditionalNode.css
 │ │ │ │ └── ConditionalNode.jsx
-│ │ │ ├── DataTransformNode/
-│ │ │ │ ├── DataTransformNode.css
 │ │ │ │ └── DataTransformNode.jsx
-│ │ │ ├── InputNode/
-│ │ │ │ ├── InputNode.css
 │ │ │ │ └── InputNode.jsx
-│ │ │ ├── LLMNode/
-│ │ │ │ ├── LLMNode.css
 │ │ │ │ └── LLMNode.jsx
-│ │ │ ├── MathNode/
-│ │ │ │ ├── MathNode.css
 │ │ │ │ └── MathNode.jsx
-│ │ │ ├── MergeNode/
-│ │ │ │ ├── MergeNode.css
 │ │ │ │ └── MergeNode.jsx
-│ │ │ ├── OutputNode/
-│ │ │ │ ├── OutputNode.css
 │ │ │ │ └── OutputNode.jsx
-│ │ │ └── TextNode/
-│ │ │ ├── TextNode.css
 │ │ │ └── TextNode.jsx
 │ │ │
 │ │ ├── store/
