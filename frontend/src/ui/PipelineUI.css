@@ -28,19 +28,19 @@
 }
 
 .react-flow__controls {
-  background: var(--bg-darker) !important;
+  background: #ffffff !important;
   border: 1px solid var(--card-border) !important;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
 }
 
 .react-flow__controls button {
-  background: var(--card-bg) !important;
+  background: #ffffff !important;
   border-bottom: 1px solid var(--card-border) !important;
   color: var(--text-primary) !important;
 }
 
 .react-flow__controls button:hover {
-  background: #2a2a2a !important;
+  background: #f8f9fa !important;
 }
 
 .react-flow__controls button svg {
@@ -48,12 +48,12 @@
 }
 
 .react-flow__minimap {
-  background: var(--bg-darker) !important;
+  background: #ffffff !important;
   border: 1px solid var(--card-border) !important;
 }
 
 .react-flow__attribution {
-  background: rgba(10, 10, 10, 0.8) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
   padding: 2px 8px !important;
   font-size: 10px !important;
   color: var(--text-secondary) !important;
@@ -61,11 +61,11 @@
 }
 
 .flow-info-panel {
-  background: var(--bg-darker);
+  background: #ffffff;
   border: 1px solid var(--card-border);
   border-radius: 6px;
   padding: 0.75rem 1.5rem;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   left: 50%;
   transform: translateX(-50%);
   text-align: center;
@@ -93,6 +93,4 @@
     top: auto !important;
     right: 1rem;
   }
-  
-  
 }

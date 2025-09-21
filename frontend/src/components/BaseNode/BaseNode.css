@@ -1,10 +1,11 @@
+/* src/components/BaseNode/BaseNode.css */
 .base-node {
   width: 240px;
   min-height: 120px;
   border-radius: 8px;
-  background: var(--card-bg);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--card-border);
+  background: var(--node-bg, var(--card-bg));
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--node-border, var(--card-border));
   font-family: 'Inter', sans-serif;
   transition: all var(--transition-speed) ease;
   overflow: visible;
@@ -12,20 +13,31 @@
 }
 
 .base-node:hover {
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-  border-color: var(--accent-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: var(--node-hover, var(--accent-primary));
 }
 
 .node-header {
   padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--card-border);
-  background: #252525;
+  border-bottom: 1px solid var(--node-border, var(--card-border));
+  background: var(--node-header-bg, #f8f9fa);
   font-weight: 600;
   color: var(--text-primary);
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-radius: 8px 8px 0 0;
+}
+
+.node-title-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.node-icon {
+  font-size: 1rem;
+  color: var(--node-hover, var(--accent-primary));
 }
 
 .node-title {
@@ -36,7 +48,7 @@
 .node-type-badge {
   font-size: 0.65rem;
   padding: 0.25rem 0.5rem;
-  background: #333;
+  background: #e9ecef;
   border-radius: 4px;
   color: var(--text-secondary);
   text-transform: uppercase;
@@ -46,96 +58,72 @@
   padding: 1rem;
 }
 
-.node-input {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--card-border);
-  border-radius: 4px;
-  font-size: 0.8rem;
-  margin-bottom: 0.75rem;
-  background: #252525;
-  color: var(--text-primary);
-  transition: all var(--transition-speed) ease;
-}
-
-.node-input:focus {
-  outline: none;
-  border-color: var(--accent-primary);
-  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-}
-
-.node-select {
-  width: 100%;
-  padding: 0.5rem 0.75rem;
-  border: 1px solid var(--card-border);
-  border-radius: 4px;
-  font-size: 0.8rem;
-  margin-bottom: 0.75rem;
-  background: #252525;
-  color: var(--text-primary);
-  cursor: pointer;
-}
-
-.node-select:focus {
-  outline: none;
-  border-color: var(--accent-primary);
-}
-
-.node-label {
-  display: block;
-  font-size: 0.75rem;
-  margin-bottom: 0.5rem;
-  color: var(--text-secondary);
-}
-
-.node-button {
-  width: 100%;
-  padding: 0.5rem;
-  background: #252525;
-  border: 1px solid var(--card-border);
-  border-radius: 4px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: all var(--transition-speed) ease;
-  color: var(--text-primary);
-}
-
-.node-button:hover {
-  background: #333;
-}
-
+/* Handle Styles */
 .node-handle {
   width: 10px;
   height: 10px;
   border: 2px solid #fff;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  background: var(--node-handle, var(--accent-primary));
 }
 
 .node-handle.source {
-  background: var(--accent-success);
+  background: var(--node-handle, var(--accent-success));
 }
 
 .node-handle.target {
-  background: var(--accent-primary);
+  background: var(--node-handle, var(--accent-primary));
 }
 
+/* Variables Info */
+.variables-info {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-top: 6px;
+  padding: 4px;
+  background: var(--node-bg, rgba(99, 102, 241, 0.1));
+  border-radius: 4px;
+  border: 1px dashed var(--node-border, rgba(99, 102, 241, 0.3));
+}
+
+/* Description Tooltip */
 .node-description {
   position: absolute;
   top: calc(100% + 10px);
   left: 0;
   width: 100%;
   padding: 0.75rem;
-  background: #252525;
+  background: #ffffff;
   border: 1px solid var(--card-border);
   border-radius: 6px;
   font-size: 0.75rem;
   color: var(--text-secondary);
   line-height: 1.4;
   z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: none;
 }
 
 .base-node:hover .node-description {
   display: block;
+}
+
+/* Specific node type overrides if needed */
+.base-node[data-nodetype="conditional"] {
+  min-height: 140px;
+}
+
+.base-node[data-nodetype="merge"] {
+  min-height: 100px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .base-node {
+    width: 200px;
+  }
+  
+  .node-content {
+    padding: 0.75rem;
+  }
 }

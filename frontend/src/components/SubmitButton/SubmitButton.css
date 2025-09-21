@@ -2,7 +2,7 @@
   width: 100%;
   padding: 0.75rem;
   background: inherit;
-  color: white;
+  color: #6366f1;
   border: none;
   border-radius: 8px;
   font-weight: 600;
@@ -16,15 +16,13 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  background: inherit;
   transform: translateY(-1px);
-  color: #6466f1;
+  background: inherit;
 }
 
 .submit-button:active:not(:disabled) {
   background: inherit;
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(99, 102, 241, 0.2);
 }
 
 .submit-button:disabled {
@@ -58,10 +56,12 @@
 .custom-toast {
   animation: toast-slide-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
   font-family: inherit;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #e9ecef;
   max-width: 400px;
+  background: #ffffff;
+  color: #333333;
 }
 
 @keyframes toast-slide-in {
@@ -120,21 +120,22 @@
   margin-top: 6px;
   font-size: 0.85em;
   opacity: 0.9;
-  color: #a0a0a0;
+  color: #6c757d;
 }
 
 .toast-details span {
-  background: rgba(255, 255, 255, 0.1);
+  background: #f8f9fa;
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.8em;
+  border: 1px solid #e9ecef;
 }
 
 .toast-error-detail {
   font-size: 0.85em;
   margin-top: 4px;
   opacity: 0.8;
-  color: #ffcccb;
+  color: #dc3545;
 }
 
 /* Refined animations */
@@ -164,8 +165,6 @@
   50% { transform: translateX(3px); }
   75% { transform: translateX(-3px); }
 }
-
-
 
 .Toaster > div {
   z-index: 9999;

@@ -1,11 +1,11 @@
 :root {
-  --bg-dark: #0a0a0a;
-  --bg-darker: #050505;
-  --bg-gradient: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-  --card-bg: #1a1a1a;
-  --card-border: #2a2a2a;
-  --text-primary: #f8f8f8;
-  --text-secondary: #a0a0a0;
+  --bg-dark: #f8f9fa;
+  --bg-darker: #ffffff;
+  --bg-gradient: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  --card-bg: #ffffff;
+  --card-border: #e9ecef;
+  --text-primary: #333333;
+  --text-secondary: #6c757d;
   --accent-primary: #6366f1;
   --accent-success: #10b981;
   --accent-danger: #ef4444;
@@ -46,6 +46,7 @@ body {
   display: flex;
   flex-direction: column;
   padding: 0;
+  border-right: 1px solid var(--card-border);
 }
 
 .sidebar.collapsed {
@@ -65,14 +66,15 @@ body {
   top: 1rem;
   left: 1rem;
   z-index: 20;
-  background: inherit;
-  border: none;
+  background: #ffffff;
+  border: 1px solid var(--card-border);
   border-radius: 6px;
   color: var(--text-primary);
   padding: 0.5rem;
   cursor: pointer;
   display: none;
   transition: all var(--transition-speed) ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-toggle.expanded {
@@ -80,7 +82,8 @@ body {
 }
 
 .sidebar-toggle:hover {
-  background: #6466f1;
+  background: #6366f1;
+  color: white;
   border-color: var(--accent-primary);
 }
 
@@ -103,7 +106,7 @@ body {
     position: absolute;
     height: 100vh;
     width: var(--sidebar-width);
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
     transform: translateX(0);
     transition: transform var(--transition-speed) ease;
     z-index: 15;
@@ -134,9 +137,10 @@ body {
   left: 0;
   right: 0;
   z-index: 20;
-  background: inherit;
+  background: #ffffff;
   padding: 0.75rem;
   transition: all var(--transition-speed) ease;
+  border-top: 1px solid var(--card-border);
 }
 
 @media (min-width: 768px) {

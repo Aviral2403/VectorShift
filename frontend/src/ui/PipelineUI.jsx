@@ -12,15 +12,15 @@ import { useNodes, useEdges, useGetNextNodeID, useAddNode, useOnNodesChange, use
 import 'reactflow/dist/style.css';
 import './PipelineUI.css';
 
-import InputNode from '../nodes/InputNode/InputNode';
-import OutputNode from '../nodes/OutputNode/OutputNode';
-import LLMNode from '../nodes/LLMNode/LLMNode';
-import TextNode from '../nodes/TextNode/TextNode';
-import ConditionalNode from '../nodes/ConditionalNode/ConditionalNode';
-import MathNode from '../nodes/MathNode/MathNode';
-import ApiNode from '../nodes/ApiNode/ApiNode';
-import DataTransformNode from '../nodes/DataTransformNode/DataTransformNode';
-import MergeNode from '../nodes/MergeNode/MergeNode';
+import InputNode from '../nodes/InputNode';
+import OutputNode from '../nodes/OutputNode';
+import LLMNode from '../nodes/LLMNode';
+import TextNode from '../nodes/TextNode';
+import ConditionalNode from '../nodes/ConditionalNode';
+import MathNode from '../nodes/MathNode';
+import ApiNode from '../nodes/ApiNode';
+import DataTransformNode from '../nodes/DataTransformNode';
+import MergeNode from '../nodes/MergeNode';
 import SubmitButton from '../components/SubmitButton/SubmitButton';
 
 const nodeTypes = {

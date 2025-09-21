@@ -67,6 +67,7 @@ export const useStore = create((set, get) => ({
     });
   },
   
+  // Direct update function that components can call directly
   updateNodeField: (nodeId, fieldName, fieldValue) => {
     set({
       nodes: get().nodes.map((node) => {
@@ -85,32 +86,27 @@ export const useStore = create((set, get) => ({
       }),
     });
   },
+
+  // Get node data directly
+  getNodeData: (nodeId) => {
+    const node = get().nodes.find(n => n.id === nodeId);
+    return node ? node.data : {};
+  },
 }));
 
+// Selectors for specific data
 export const useNodes = () => useStore(state => state.nodes, shallow);
 export const useEdges = () => useStore(state => state.edges, shallow);
+export const useNodeData = (nodeId) => useStore(state => {
+  const node = state.nodes.find(n => n.id === nodeId);
+  return node ? node.data : {};
+}, shallow);
 
+// Actions
 export const useGetNextNodeID = () => useStore(state => state.getNextNodeID);
 export const useAddNode = () => useStore(state => state.addNode);
 export const useOnNodesChange = () => useStore(state => state.onNodesChange);
 export const useOnEdgesChange = () => useStore(state => state.onEdgesChange);
 export const useOnConnect = () => useStore(state => state.onConnect);
 export const useUpdateNodeField = () => useStore(state => state.updateNodeField);
-
-export const useStoreActions = () => {
-  const getNextNodeID = useGetNextNodeID();
-  const addNode = useAddNode();
-  const onNodesChange = useOnNodesChange();
-  const onEdgesChange = useOnEdgesChange();
-  const onConnect = useOnConnect();
-  const updateNodeField = useUpdateNodeField();
-  
-  return {
-    getNextNodeID,
-    addNode,
-    onNodesChange,
-    onEdgesChange,
-    onConnect,
-    updateNodeField
-  };
-};
+export const useGetNodeData = () => useStore(state => state.getNodeData);

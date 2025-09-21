@@ -1,0 +1,228 @@
+/* src/components/FormComponents/FormComponents.css */
+
+/* Form Field Container */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.75rem;
+}
+
+.form-field:last-child {
+  margin-bottom: 0;
+}
+
+/* Label Styles */
+.node-label {
+  display: block;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+/* Input Styles */
+.node-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  background: #ffffff;
+  color: var(--text-primary);
+  transition: all var(--transition-speed, 0.2s) ease;
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.node-input:focus {
+  outline: none;
+  border-color: var(--node-hover, var(--accent-primary));
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+.node-input:disabled {
+  background: #f8f9fa;
+  color: var(--text-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.node-input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* Textarea specific styles */
+.node-input.text-area {
+  min-height: 60px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+/* Select Styles */
+.node-select {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  background: #ffffff;
+  color: var(--text-primary);
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all var(--transition-speed, 0.2s) ease;
+}
+
+.node-select:focus {
+  outline: none;
+  border-color: var(--node-hover, var(--accent-primary));
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+.node-select:disabled {
+  background: #f8f9fa;
+  color: var(--text-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.node-select option {
+  background: #ffffff;
+  color: var(--text-primary);
+  padding: 0.5rem;
+}
+
+/* Button Styles */
+.node-button {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: #f8f9fa;
+  border: 1px solid var(--card-border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all var(--transition-speed, 0.2s) ease;
+  color: var(--text-primary);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.node-button:hover:not(:disabled) {
+  background: #e9ecef;
+  border-color: var(--node-hover, var(--accent-primary));
+  transform: translateY(-1px);
+}
+
+.node-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.node-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f8f9fa;
+}
+
+.node-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+}
+
+/* Variables Info Component */
+.variables-info {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: var(--node-bg, rgba(99, 102, 241, 0.1));
+  border-radius: 4px;
+  border: 1px dashed var(--node-border, rgba(99, 102, 241, 0.3));
+  line-height: 1.3;
+}
+
+.variables-info:empty {
+  display: none;
+}
+
+/* Input Groups for side-by-side inputs */
+.input-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
+.input-group .form-field {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* Button Groups */
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.button-group .node-button {
+  flex: 1;
+}
+
+/* Validation States */
+.node-input.error,
+.node-select.error {
+  border-color: #ef4444;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
+}
+
+.node-input.success,
+.node-select.success {
+  border-color: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+/* Help Text */
+.help-text {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+  line-height: 1.3;
+}
+
+.help-text.error {
+  color: #ef4444;
+}
+
+.help-text.success {
+  color: #10b981;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .node-input,
+  .node-select,
+  .node-button {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .node-label {
+    font-size: 0.7rem;
+  }
+  
+  .form-field {
+    margin-bottom: 0.6rem;
+  }
+  
+  .input-group {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .input-group .form-field {
+    margin-bottom: 0.5rem;
+  }
+}

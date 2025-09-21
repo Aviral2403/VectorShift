@@ -1,11 +1,11 @@
 .toolbar-container {
   padding: 1rem;
-  background: var(--bg-darker);
+  background: #ffffff;
   border-radius: 8px;
   transition: all var(--transition-speed) ease;
   height: 100%;
   overflow-y: auto;
-  margin-top: 4rem;
+  margin-top: 1rem;
 }
 
 .toolbar-container.collapsed {
