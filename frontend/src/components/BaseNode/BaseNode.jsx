@@ -193,47 +193,58 @@ const BaseNode = ({
         {children}
       </div>
 
-      {/* CRITICAL FIX: Render handles with proper unique IDs */}
+      {/* Render handles exactly as provided from registry */}
       {handles.map((handle, index) => {
-        const handleStyle = {
-          ...(handle.style || {}),
-          // Ensure proper vertical positioning
-          top: handle.style?.top || `${((index + 1) * 100) / (handles.filter(h => h.type === handle.type).length + 1)}%`
+        // Use the handle style exactly as provided - nodeRegistry calculates correct positions
+        const handleStyle = handle.style || {};
+
+        return (
+          <Handle
+            key={`handle-${id}-${handle.id}-${index}`}
+            type={handle.type}
+            position={handle.position}
+            id={handle.id}
+            style={handleStyle}
+            className={`node-handle ${handle.type}`}
+            isConnectable={true}
+          />
+        );
+      })}
+
+      {/* Render labels outside the node - matching handle positions */}
+      {handles.map((handle, index) => {
+        const topPosition = handle.style?.top || '50%';
+
+        const labelStyle = {
+          position: 'absolute',
+          top: topPosition,
+          transform: 'translateY(-50%)',
+          fontSize: '0.65rem',
+          fontWeight: 500,
+          color: 'var(--text-secondary, #64748b)',
+          background: 'rgba(255, 255, 255, 0.95)',
+          padding: '2px 6px',
+          borderRadius: '3px',
+          whiteSpace: 'nowrap',
+          border: '1px solid var(--node-border, rgba(0, 0, 0, 0.15))',
+          boxShadow: '0 1px 2px rgba(0, 0, 0, 0.08)',
+          pointerEvents: 'none',
+          zIndex: 5,
+          // Labels positioned OUTSIDE the node on correct side
+          ...(handle.type === 'target'
+            ? { right: 'calc(100% + 12px)' }  // Left handle: label outside on left
+            : { left: 'calc(100% + 12px)' }   // Right handle: label outside on right
+          )
         };
 
         return (
-          <React.Fragment key={`${id}-${handle.id}-${index}`}>
-            <Handle
-              type={handle.type}
-              position={handle.position}
-              id={handle.id}
-              style={handleStyle}
-              className={`node-handle ${handle.type}`}
-              isConnectable={true}
-            />
-            {/* Render label outside the handle */}
-            <span
-              className={`handle-label handle-label-${handle.type}`}
-              style={{
-                position: 'absolute',
-                ...handleStyle,
-                ...(handle.type === 'target'
-                  ? {
-                    left: '-60px',
-                    transform: 'translateY(-50%)',
-                    textAlign: 'right'
-                  }
-                  : {
-                    right: '-60px',
-                    transform: 'translateY(-50%)',
-                    textAlign: 'left'
-                  }
-                )
-              }}
-            >
-              {handle.id}
-            </span>
-          </React.Fragment>
+          <span
+            key={`label-${id}-${handle.id}-${index}`}
+            className={`handle-label handle-label-${handle.type}`}
+            style={labelStyle}
+          >
+            {handle.id}
+          </span>
         );
       })}
 

@@ -188,7 +188,7 @@ export const NODE_REGISTRY = {
         // Handles are dynamically generated based on text content
         dynamicHandles: true,
         handles: [
-            { id: 'output', type: 'source', position: Position.Right }
+            { id: 'output', type: 'source', position: Position.Right, style: { top: '50%', transform: 'translateY(-50%)' } }
         ],
         fields: [
             {
@@ -592,45 +592,33 @@ export const getToolbarNodes = () => {
 };
 
 /**
- * Get handles for a node type - FIXED VERSION
- * @param {string} nodeType - The type of node
- * @param {Object} data - Node data for dynamic handle generation
- * @returns {Array} Array of handle configurations
+ * Get handles for a node type
+ * For text nodes: simple single input + output handles (variables shown in display only)
  */
 export const getNodeHandles = (nodeType, data = {}) => {
     const config = getNodeConfig(nodeType);
     if (!config) return [];
 
-    // For text nodes, generate dynamic handles based on variables
-    if (config.dynamicHandles && nodeType === 'text') {
-        const text = data.text || '';
-        const variables = extractVariablesFromText(text);
-
-        // FIXED: Calculate proper spacing for each variable handle
-        const totalHandles = variables.length;
-
-        const variableHandles = variables.map((varName, index) => {
-            // Calculate position: evenly space handles with padding
-            // For n handles, use: (index + 1) / (n + 1) * 100%
-            const topPercent = ((index + 1) / (totalHandles + 1)) * 100;
-
-            return {
-                id: varName,
+    // For text nodes, use simple centered input/output handles
+    // Variables are detected and shown but don't create multiple handles
+    if (nodeType === 'text') {
+        return [
+            {
+                id: 'input',
                 type: 'target',
                 position: Position.Left,
-                style: {
-                    top: `${topPercent}%`,
-                    // CRITICAL: Ensure transform is set to vertically center the handle
-                    transform: 'translateY(-50%)'
-                }
-            };
-        });
-
-        // Return variable handles first, then the output handle
-        return [...variableHandles, ...config.handles];
+                style: { top: '50%' }
+            },
+            {
+                id: 'output',
+                type: 'source',
+                position: Position.Right,
+                style: { top: '50%' }
+            }
+        ];
     }
 
-    return config.handles;
+    return config.handles || [];
 };
 
 /**
