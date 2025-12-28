@@ -277,6 +277,40 @@ GET /test-cycle
 
 ---
 
+## DAG Validation Examples
+
+Here are two small examples to help you understand the pipeline validation logic:
+
+### 1. DAQ is True (Valid Pipeline)
+**Scenario:** A linear flow where data moves forward without looping back.
+- **Connections:** `Input Node` -> `Text Node` -> `Output Node`
+- **Output:**
+```json
+{
+  "num_nodes": 3,
+  "num_edges": 2,
+  "is_dag": true,
+  "size": 3,
+  "edges": [["input-1", "text-1"], ["text-1", "output-1"]]
+}
+```
+
+### 2. DAG is False (Cycle Detected)
+**Scenario:** A circular dependency where a node's output feeds back into its own input chain.
+- **Connections:** `Node A` -> `Node B` -> `Node A`
+- **Output:**
+```json
+{
+  "num_nodes": 2,
+  "num_edges": 2,
+  "is_dag": false,
+  "size": 2,
+  "edges": [["node-A", "node-B"], ["node-B", "node-A"]]
+}
+```
+
+---
+
 ## Best Practices Implemented
 
 | Practice | Implementation |

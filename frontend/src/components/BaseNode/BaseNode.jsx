@@ -193,6 +193,7 @@ const BaseNode = ({
         {children}
       </div>
 
+      {/* Render handles directly without wrapper for proper React Flow positioning */}
       {handles.map((handle, index) => (
         <Handle
           key={`${id}-${handle.id}-${index}`}
@@ -202,6 +203,24 @@ const BaseNode = ({
           style={handle.style || {}}
           className={`node-handle ${handle.type}`}
         />
+      ))}
+
+      {/* Render labels as separate positioned elements - OUTSIDE the node */}
+      {handles.map((handle, index) => (
+        <span
+          key={`${id}-${handle.id}-label-${index}`}
+          className={`handle-label handle-label-${handle.type}`}
+          style={{
+            position: 'absolute',
+            ...(handle.style || {}),
+            ...(handle.type === 'target'
+              ? { left: '-50px', transform: 'translateY(-50%)' }  // Outside left edge
+              : { right: '-50px', transform: 'translateY(-50%)' } // Outside right edge
+            )
+          }}
+        >
+          {handle.id}
+        </span>
       ))}
 
       {description && (

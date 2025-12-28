@@ -20,7 +20,9 @@ button {
   cursor: pointer;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   font-family: 'Inter', sans-serif;
 }
 
@@ -37,6 +39,8 @@ input, select, textarea {
   height: 12px;
   border: 2px solid #fff;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  /* Critical: center handles vertically at their specified top position */
+  transform: translateY(-50%);
 }
 
 .react-flow__handle.source {
