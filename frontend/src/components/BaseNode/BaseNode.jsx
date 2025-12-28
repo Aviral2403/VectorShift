@@ -18,7 +18,7 @@ const NODE_CONFIGS = {
   output: {
     colors: {
       bg: 'rgba(239, 68, 68, 0.1)',
-      border: 'rgba(239, 68, 68, 0.5)', 
+      border: 'rgba(239, 68, 68, 0.5)',
       header: 'rgba(239, 68, 68, 0.2)',
       handle: '#ef4444',
       hover: '#ef4444'
@@ -94,23 +94,75 @@ const NODE_CONFIGS = {
       hover: '#64748b'
     },
     handles: ['input-1', 'input-2', 'output']
+  },
+  // New node types
+  timer: {
+    colors: {
+      bg: 'rgba(100, 116, 139, 0.1)',
+      border: 'rgba(100, 116, 139, 0.5)',
+      header: 'rgba(100, 116, 139, 0.2)',
+      handle: '#64748b',
+      hover: '#64748b'
+    },
+    handles: ['trigger', 'output']
+  },
+  filter: {
+    colors: {
+      bg: 'rgba(6, 182, 212, 0.1)',
+      border: 'rgba(6, 182, 212, 0.5)',
+      header: 'rgba(6, 182, 212, 0.2)',
+      handle: '#06b6d4',
+      hover: '#06b6d4'
+    },
+    handles: ['input', 'passed', 'rejected']
+  },
+  loop: {
+    colors: {
+      bg: 'rgba(245, 158, 11, 0.1)',
+      border: 'rgba(245, 158, 11, 0.5)',
+      header: 'rgba(245, 158, 11, 0.2)',
+      handle: '#f59e0b',
+      hover: '#f59e0b'
+    },
+    handles: ['items', 'control', 'current', 'complete']
+  },
+  webhook: {
+    colors: {
+      bg: 'rgba(99, 102, 241, 0.1)',
+      border: 'rgba(99, 102, 241, 0.5)',
+      header: 'rgba(99, 102, 241, 0.2)',
+      handle: '#6366f1',
+      hover: '#6366f1'
+    },
+    handles: ['payload']
+  },
+  database: {
+    colors: {
+      bg: 'rgba(6, 182, 212, 0.1)',
+      border: 'rgba(6, 182, 212, 0.5)',
+      header: 'rgba(6, 182, 212, 0.2)',
+      handle: '#06b6d4',
+      hover: '#06b6d4'
+    },
+    handles: ['input', 'result']
   }
 };
 
-const BaseNode = ({ 
-  id, 
-  data, 
-  title, 
+
+const BaseNode = ({
+  id,
+  data,
+  title,
   icon,
-  handles = [], 
-  children, 
-  className = '', 
-  style = {}, 
+  handles = [],
+  children,
+  className = '',
+  style = {},
   description,
   nodeType
 }) => {
   const config = NODE_CONFIGS[nodeType] || NODE_CONFIGS.text;
-  
+
   const nodeStyle = {
     '--node-bg': config.colors.bg,
     '--node-border': config.colors.border,
@@ -121,7 +173,7 @@ const BaseNode = ({
   };
 
   return (
-    <div 
+    <div
       className={`base-node ${className}`}
       style={nodeStyle}
       data-nodeid={id}
@@ -136,7 +188,7 @@ const BaseNode = ({
           <span className="node-type-badge">{data.nodeType}</span>
         )}
       </div>
-      
+
       <div className="node-content">
         {children}
       </div>

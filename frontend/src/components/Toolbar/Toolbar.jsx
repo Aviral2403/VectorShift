@@ -1,14 +1,19 @@
+/**
+ * Toolbar.jsx - Node palette for drag-and-drop
+ * Uses node registry for configuration
+ */
 import {
   FiGitBranch, FiLayers, FiRotateCw, FiLogIn, FiLogOut,
-  FiZap
+  FiZap, FiClock, FiFilter, FiRepeat, FiLink, FiDatabase
 } from 'react-icons/fi';
 import {
   HiOutlineDocumentText, HiOutlineCpuChip,
-  HiOutlineCalculator, HiOutlineGlobeAlt,
+  HiOutlineCalculator
 } from 'react-icons/hi2';
 import DraggableNode from '../DraggableNode/DraggableNode';
 import './Toolbar.css';
 
+// Node types for the toolbar - maps to registry types
 const nodeTypes = [
   {
     type: 'customInput',
@@ -73,9 +78,45 @@ const nodeTypes = [
     description: 'Merge multiple data streams',
     category: 'Data'
   },
+  // New nodes
+  {
+    type: 'timer',
+    label: 'Timer',
+    icon: <FiClock size={20} />,
+    description: 'Delay or schedule execution',
+    category: 'Utilities'
+  },
+  {
+    type: 'filter',
+    label: 'Filter',
+    icon: <FiFilter size={20} />,
+    description: 'Filter data based on conditions',
+    category: 'Data'
+  },
+  {
+    type: 'loop',
+    label: 'Loop',
+    icon: <FiRepeat size={20} />,
+    description: 'Iteration and looping control',
+    category: 'Logic'
+  },
+  {
+    type: 'webhook',
+    label: 'Webhook',
+    icon: <FiLink size={20} />,
+    description: 'Webhook triggers and receivers',
+    category: 'API'
+  },
+  {
+    type: 'database',
+    label: 'Database',
+    icon: <FiDatabase size={20} />,
+    description: 'Database operations',
+    category: 'Data'
+  },
 ];
 
-const categoryOrder = ['Inputs', 'Outputs', 'AI', 'Data', 'Logic', 'API'];
+const categoryOrder = ['Inputs', 'Outputs', 'AI', 'Data', 'Logic', 'API', 'Utilities'];
 
 const PipelineToolbar = ({ collapsed }) => {
   const nodesByCategory = nodeTypes.reduce((acc, node) => {
@@ -86,8 +127,6 @@ const PipelineToolbar = ({ collapsed }) => {
 
   return (
     <div className={`toolbar-container ${collapsed ? 'collapsed' : ''}`}>
-      
-
       {categoryOrder.map(category => (
         nodesByCategory[category] && (
           <div key={category} className="category-section">

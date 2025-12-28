@@ -3,6 +3,7 @@ import { useStore } from '../../store/store';
 import './SubmitButton.css';
 import toast, { Toaster } from 'react-hot-toast';
 import { useState, useCallback } from 'react';
+import { FiLoader, FiCheck, FiX } from 'react-icons/fi';
 
 const SubmitButton = () => {
   const { nodes, edges } = useStore();
@@ -15,12 +16,12 @@ const SubmitButton = () => {
     }
 
     setIsSubmitting(true);
-    
+
     toast.dismiss();
-    
+
     console.log("Nodes:", nodes);
     console.log("Edges:", edges);
-    
+
     const loadingToast = toast.loading(
       <div className="toast-message">
         <span>Analyzing pipeline...</span>
@@ -34,7 +35,7 @@ const SubmitButton = () => {
     );
 
     const startTime = Date.now();
-    const MIN_LOADING_DURATION = 1500; 
+    const MIN_LOADING_DURATION = 1500;
 
     try {
       const response = await fetch('http://localhost:8000/pipelines/parse', {
@@ -81,7 +82,7 @@ const SubmitButton = () => {
             },
           }
         );
-      }, 200); 
+      }, 200);
 
     } catch (error) {
       const elapsedTime = Date.now() - startTime;
@@ -106,7 +107,7 @@ const SubmitButton = () => {
             duration: 4000,
           }
         );
-      }, 200); 
+      }, 200);
       console.error('Error submitting pipeline:', error);
     } finally {
       setIsSubmitting(false);
@@ -149,15 +150,15 @@ const SubmitButton = () => {
           },
         }}
       />
-           
-      <button 
+
+      <button
         className="submit-button"
         onClick={handleSubmit}
         disabled={nodes.length === 0 || isSubmitting}
       >
         {isSubmitting ? (
           <span className="button-content">
-            <span className="button-loader">⚙️</span>
+            <FiLoader className="button-loader" />
             Analyzing...
           </span>
         ) : (

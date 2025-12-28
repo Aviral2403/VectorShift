@@ -1,9 +1,9 @@
 import { useRef, useCallback, useState } from 'react';
 import ReactFlow, {
-   Controls,
-   Background,
-   MiniMap,
-   Panel,
+  Controls,
+  Background,
+  MiniMap,
+  Panel,
   ConnectionMode,
   ControlButton
 } from 'reactflow';
@@ -12,6 +12,7 @@ import { useNodes, useEdges, useGetNextNodeID, useAddNode, useOnNodesChange, use
 import 'reactflow/dist/style.css';
 import './PipelineUI.css';
 
+// Existing nodes
 import InputNode from '../nodes/InputNode';
 import OutputNode from '../nodes/OutputNode';
 import LLMNode from '../nodes/LLMNode';
@@ -21,6 +22,14 @@ import MathNode from '../nodes/MathNode';
 import ApiNode from '../nodes/ApiNode';
 import DataTransformNode from '../nodes/DataTransformNode';
 import MergeNode from '../nodes/MergeNode';
+
+// New nodes
+import TimerNode from '../nodes/TimerNode';
+import FilterNode from '../nodes/FilterNode';
+import LoopNode from '../nodes/LoopNode';
+import WebhookNode from '../nodes/WebhookNode';
+import DatabaseNode from '../nodes/DatabaseNode';
+
 import SubmitButton from '../components/SubmitButton/SubmitButton';
 
 const nodeTypes = {
@@ -33,29 +42,41 @@ const nodeTypes = {
   api: ApiNode,
   dataTransform: DataTransformNode,
   merge: MergeNode,
+  // New nodes
+  timer: TimerNode,
+  filter: FilterNode,
+  loop: LoopNode,
+  webhook: WebhookNode,
+  database: DatabaseNode,
 };
 
 // Node type to color mapping
 const getNodeColor = (nodeType) => {
   const colorMap = {
-    customInput: '#10b981',     
-    customOutput: '#ef4444',    
-    llm: '#3b82f6',            
-    text: '#8b5cf6',           
-    conditional: '#f59e0b',    
-    math: '#10b981',           
-    api: '#6366f1',            
-    dataTransform: '#a855f7',  
-    merge: '#64748b',          
+    customInput: '#10b981',
+    customOutput: '#ef4444',
+    llm: '#3b82f6',
+    text: '#8b5cf6',
+    conditional: '#f59e0b',
+    math: '#10b981',
+    api: '#6366f1',
+    dataTransform: '#a855f7',
+    merge: '#64748b',
+    // New nodes
+    timer: '#64748b',
+    filter: '#06b6d4',
+    loop: '#f59e0b',
+    webhook: '#6366f1',
+    database: '#06b6d4',
   };
-  return colorMap[nodeType] || '#6366f1'; 
+  return colorMap[nodeType] || '#6366f1';
 };
 
 const PipelineUI = () => {
   const reactFlowWrapper = useRef(null);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [fitViewOnLoad, setFitViewOnLoad] = useState(true);
-   
+
   const nodes = useNodes();
   const edges = useEdges();
   const getNextNodeID = useGetNextNodeID();
@@ -69,12 +90,12 @@ const PipelineUI = () => {
     const sourceNode = nodes.find(node => node.id === edge.source);
     const sourceNodeType = sourceNode?.type;
     const color = getNodeColor(sourceNodeType);
-    
+
     return {
       ...edge,
-      style: { 
-        stroke: color, 
-        strokeWidth: 2 
+      style: {
+        stroke: color,
+        strokeWidth: 2
       },
       animated: true,
     };
@@ -83,12 +104,12 @@ const PipelineUI = () => {
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-       
+
       if (!reactFlowWrapper.current || !reactFlowInstance) return;
 
       const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
       const appData = event?.dataTransfer?.getData('application/reactflow');
-       
+
       if (appData) {
         try {
           const { nodeType } = JSON.parse(appData);
@@ -98,15 +119,15 @@ const PipelineUI = () => {
             x: event.clientX - reactFlowBounds.left,
             y: event.clientY - reactFlowBounds.top,
           });
-           
+
           const nodeID = getNextNodeID(nodeType);
           const newNode = {
             id: nodeID,
             type: nodeType,
             position,
             data: {
-               id: nodeID,
-               nodeType: nodeType,
+              id: nodeID,
+              nodeType: nodeType,
               ...(nodeType === 'text' && { text: '{{input}}' })
             },
           };
@@ -151,11 +172,11 @@ const PipelineUI = () => {
           }}
         >
           <Background color="#333" gap={20} variant="dots" />
-           
+
           <Controls position="top-right">
           </Controls>
-           
-          <MiniMap 
+
+          <MiniMap
             nodeColor={(n) => {
               return getNodeColor(n.type);
             }}
@@ -170,7 +191,7 @@ const PipelineUI = () => {
               right: '1rem',
             }}
           />
-                            
+
         </ReactFlow>
       </div>
     </ErrorBoundary>

@@ -1,3 +1,4 @@
+import React, { forwardRef } from 'react';
 import './FormComponents.css';
 
 export const NodeLabel = ({ children, className = '' }) => (
@@ -6,19 +7,20 @@ export const NodeLabel = ({ children, className = '' }) => (
   </label>
 );
 
-export const NodeInput = ({ 
-  value, 
-  onChange, 
-  placeholder, 
+export const NodeInput = forwardRef(({
+  value,
+  onChange,
+  placeholder,
   type = 'text',
   rows,
   className = '',
-  ...props 
-}) => {
+  ...props
+}, ref) => {
   const Component = type === 'textarea' ? 'textarea' : 'input';
-  
+
   return (
     <Component
+      ref={ref}
       type={type !== 'textarea' ? type : undefined}
       className={`node-input ${type === 'textarea' ? 'text-area' : ''} ${className}`}
       value={value}
@@ -28,14 +30,16 @@ export const NodeInput = ({
       {...props}
     />
   );
-};
+});
 
-export const NodeSelect = ({ 
-  value, 
-  onChange, 
-  options = [], 
+NodeInput.displayName = 'NodeInput';
+
+export const NodeSelect = ({
+  value,
+  onChange,
+  options = [],
   className = '',
-  ...props 
+  ...props
 }) => (
   <select
     className={`node-select ${className}`}
@@ -51,12 +55,12 @@ export const NodeSelect = ({
   </select>
 );
 
-export const NodeButton = ({ 
-  onClick, 
-  children, 
+export const NodeButton = ({
+  onClick,
+  children,
   className = '',
   disabled = false,
-  ...props 
+  ...props
 }) => (
   <button
     className={`node-button ${className}`}
@@ -68,11 +72,11 @@ export const NodeButton = ({
   </button>
 );
 
-export const FormField = ({ 
-  label, 
-  children, 
+export const FormField = ({
+  label,
+  children,
   className = '',
-  ...props 
+  ...props
 }) => (
   <div className={`form-field ${className}`} {...props}>
     {label && <NodeLabel>{label}</NodeLabel>}
@@ -82,7 +86,7 @@ export const FormField = ({
 
 export const VariablesInfo = ({ variables }) => {
   if (!variables || variables.length === 0) return null;
-  
+
   return (
     <div className="variables-info">
       <span>Variables: {variables.join(', ')}</span>

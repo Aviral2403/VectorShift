@@ -1,9 +1,9 @@
 /**
- * OutputNode - Final output for workflow
+ * WebhookNode - Webhook trigger
  * Generated from node registry using factory function
  */
 import { createNodeComponent } from '../components/BaseNode/createNode';
 
-const OutputNode = createNodeComponent('output');
+const WebhookNode = createNodeComponent('webhook');
 
-export default OutputNode;
+export default WebhookNode;

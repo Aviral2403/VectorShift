@@ -1,9 +1,9 @@
 /**
- * OutputNode - Final output for workflow
+ * LoopNode - Iteration control
  * Generated from node registry using factory function
  */
 import { createNodeComponent } from '../components/BaseNode/createNode';
 
-const OutputNode = createNodeComponent('output');
+const LoopNode = createNodeComponent('loop');
 
-export default OutputNode;
+export default LoopNode;

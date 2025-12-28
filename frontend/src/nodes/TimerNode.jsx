@@ -1,9 +1,9 @@
 /**
- * OutputNode - Final output for workflow
+ * TimerNode - Delay or schedule execution
  * Generated from node registry using factory function
  */
 import { createNodeComponent } from '../components/BaseNode/createNode';
 
-const OutputNode = createNodeComponent('output');
+const TimerNode = createNodeComponent('timer');
 
-export default OutputNode;
+export default TimerNode;

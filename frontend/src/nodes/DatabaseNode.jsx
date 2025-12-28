@@ -1,9 +1,9 @@
 /**
- * OutputNode - Final output for workflow
+ * DatabaseNode - Database operations
  * Generated from node registry using factory function
  */
 import { createNodeComponent } from '../components/BaseNode/createNode';
 
-const OutputNode = createNodeComponent('output');
+const DatabaseNode = createNodeComponent('database');
 
-export default OutputNode;
+export default DatabaseNode;
