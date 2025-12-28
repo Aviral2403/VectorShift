@@ -1,228 +1,253 @@
-# 📌 Introduction
+# VectorShift Pipeline Builder
 
-This project was developed as part of a technical assessment for VectorShift (YC23).
-It consists of a React (Vite) frontend and a FastAPI backend, working together to allow users to build, style, and validate node-based pipelines.
+A production-grade pipeline builder developed for VectorShift (YC23) technical assessment. Built with React (Vite) frontend and FastAPI backend, enabling users to visually create, connect, and validate node-based workflows.
 
-### The assessment was divided into four key tasks:
+---
 
-- **Node Abstraction –** Create a reusable abstraction to streamline building new nodes and demonstrate it by implementing five custom nodes.
+## Assessment Overview
 
-- **Styling –** Apply a clean, unified design across all frontend components.
+This project addresses four key tasks:
 
-- **Text Node Logic –**  Enhance the Text node to auto-resize with input and dynamically generate variable handles ({{variable}}).
+| Task | Description |
+|------|-------------|
+| **Node Abstraction** | Factory pattern with centralized registry for rapid node creation |
+| **Styling** | Clean, unified design with CSS variables and responsive layouts |
+| **Text Node Logic** | Auto-resize textarea + dynamic handles from `{{variable}}` syntax |
+| **Backend Integration** | Pipeline validation, node/edge counting, and DAG cycle detection |
 
-- **Backend Integration –** Connect the frontend to a FastAPI backend that validates pipelines, counts nodes/edges, and checks for cycles (DAG validation).
+---
 
-### The final result enables users to:
+## Features
 
-- Create and connect nodes visually
+- **14 Node Types** - Input, Output, LLM, Text, Conditional, Math, API, Transform, Merge, Timer, Filter, Loop, Webhook, Database
+- **Factory Pattern** - Each node file is just 9 lines of code
+- **Dynamic Handles** - Text nodes auto-generate input handles from `{{variable}}` syntax
+- **Auto-resize Textarea** - Text input expands as you type
+- **DAG Validation** - Backend validates pipeline structure and detects cycles
+- **Responsive Design** - Works on desktop and mobile with collapsible sidebar
+- **Single Source of Truth** - Zustand store for state, nodeRegistry for configuration
 
-- Style and expand the pipeline easily
+---
 
-- Input text with dynamic variables
+## Tech Stack
 
-- Submit pipelines to the backend for validation and receive instant feedback
+| Frontend | Backend |
+|----------|---------|
+| React 19 + Vite 7 | FastAPI |
+| Zustand (state management) | NetworkX (graph/DAG) |
+| React Flow (canvas) | Pydantic (validation) |
+| react-icons | Uvicorn (server) |
+| react-hot-toast | Python 3.11+ |
 
-# ⚙️ Tech Stack
+---
 
-**Frontend**  
-- React (with Vite)  
-- JavaScript (ES6+)  
-- CSS Modules  
+## Getting Started
 
-**Backend**  
-- FastAPI (Python 3.11+)  
-- Pydantic  
-- Uvicorn 
-
-# 🚀 Getting Started
-
-## 1️) Clone the Repository
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/<your-username>/VectorShift.git
 cd Vector-Shift
 ```
-## 2) Backend Setup
 
-```
+### 2. Backend Setup
+```bash
 cd backend
 python -m venv venv
-source venv/bin/activate   # On macOS/Linux
-venv\Scripts\activate      # On Windows
+source venv/bin/activate   # macOS/Linux
+venv\Scripts\activate      # Windows
 
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
+Backend runs at: `http://localhost:8000`
 
-## 3) Frontend Setup
-
-```
-cd ../frontend
+### 3. Frontend Setup
+```bash
+cd frontend
 npm install
 npm run dev
 ```
+Frontend runs at: `http://localhost:5173`
 
+---
 
-# Project Structure
+## Project Structure
 
 ```
 Vector-Shift/
 ├── backend/
-│ ├── pycache/
-│ ├── venv/
-│ ├── init.py
-│ ├── main.py
-│ └── requirements.txt
+│   ├── __pycache__/
+│   ├── venv/
+│   ├── __init__.py
+│   ├── main.py                      # FastAPI endpoints
+│   └── requirements.txt
 │
 ├── frontend/
-│ ├── node_modules/
-│ ├── public/
-│ ├── src/
-│ │ ├── assets/
-│ │ ├── components/
-│ │ │ ├── BaseNode/
-│ │ │ │ ├── BaseNode.css
-│ │ │ │ └── BaseNode.jsx
-│ │ │ ├── DraggableNode/
-│ │ │ │ ├── DraggableNode.css
-│ │ │ │ └── DraggableNode.jsx
-│ │ │ ├── ErrorBoundary/
-│ │ │ │ ├── ErrorBoundary.css
-│ │ │ │ └── ErrorBoundary.jsx
-│ │ │ ├── SubmitButton/
-│ │ │ │ ├── SubmitButton.css
-│ │ │ │ └── SubmitButton.jsx
-│ │ │ └── Toolbar/
-│ │ │ ├── Toolbar.css
-│ │ │ └── Toolbar.jsx
-│ │ │
-│ │ ├── utils/
-│ │ │ └── handleutils.js
-│ │ ├── nodes/
-│ │ │ │ └── ApiNode.jsx
-│ │ │ │ └── ConditionalNode.jsx
-│ │ │ │ └── DataTransformNode.jsx
-│ │ │ │ └── InputNode.jsx
-│ │ │ │ └── LLMNode.jsx
-│ │ │ │ └── MathNode.jsx
-│ │ │ │ └── MergeNode.jsx
-│ │ │ │ └── OutputNode.jsx
-│ │ │ └── TextNode.jsx
-│ │ │
-│ │ ├── store/
-│ │ │ └── store.js
-│ │ │
-│ │ ├── ui/
-│ │ │ ├── PipelineUI.css
-│ │ │ └── PipelineUI.jsx
-│ │ │
-│ │ ├── App.css
-│ │ ├── App.jsx
-│ │ ├── index.css
-│ │ └── main.jsx
-│ │
-│ ├── .gitignore
-│ ├── eslint.config.js
-│ ├── index.html
-│ ├── package-lock.json
-│ ├── package.json
-│ ├── README.md
-│ └── vite.config.js
+│   ├── node_modules/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   │
+│   │   ├── config/
+│   │   │   └── nodeRegistry.js      # Single source of truth for all nodes
+│   │   │
+│   │   ├── components/
+│   │   │   ├── BaseNode/
+│   │   │   │   ├── BaseNode.css     # Node styling (CSS variables)
+│   │   │   │   ├── BaseNode.jsx     # Base component with colors
+│   │   │   │   └── createNode.jsx   # Factory function
+│   │   │   ├── DraggableNode/
+│   │   │   │   ├── DraggableNode.css
+│   │   │   │   └── DraggableNode.jsx
+│   │   │   ├── ErrorBoundary/
+│   │   │   │   ├── ErrorBoundary.css
+│   │   │   │   └── ErrorBoundary.jsx
+│   │   │   ├── FormComponents/
+│   │   │   │   ├── FormComponents.css
+│   │   │   │   └── FormComponents.jsx  # Reusable form elements
+│   │   │   ├── SubmitButton/
+│   │   │   │   ├── SubmitButton.css
+│   │   │   │   └── SubmitButton.jsx
+│   │   │   └── Toolbar/
+│   │   │       ├── Toolbar.css
+│   │   │       └── Toolbar.jsx
+│   │   │
+│   │   ├── nodes/                   # All 14 node files (9 lines each)
+│   │   │   ├── ApiNode.jsx
+│   │   │   ├── ConditionalNode.jsx
+│   │   │   ├── DatabaseNode.jsx     # NEW
+│   │   │   ├── DataTransformNode.jsx
+│   │   │   ├── FilterNode.jsx       # NEW
+│   │   │   ├── InputNode.jsx
+│   │   │   ├── LLMNode.jsx
+│   │   │   ├── LoopNode.jsx         # NEW
+│   │   │   ├── MathNode.jsx
+│   │   │   ├── MergeNode.jsx
+│   │   │   ├── OutputNode.jsx
+│   │   │   ├── TextNode.jsx
+│   │   │   ├── TimerNode.jsx        # NEW
+│   │   │   └── WebhookNode.jsx      # NEW
+│   │   │
+│   │   ├── store/
+│   │   │   └── store.js             # Zustand store
+│   │   │
+│   │   ├── ui/
+│   │   │   ├── PipelineUI.css
+│   │   │   └── PipelineUI.jsx
+│   │   │
+│   │   ├── utils/
+│   │   │   └── handleUtils.js       # Dynamic handle generation
+│   │   │
+│   │   ├── App.css
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   └── main.jsx
+│   │
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── README.md
+│   └── vite.config.js
+│
+└── README.md
 ```
 
-## ✨ Features
+---
 
-**Pipeline UI –** Interactive canvas to visualize and connect nodes.
+## Node Types
 
-**Node Types –** Support for multiple nodes such as:
+| Category | Nodes | Description |
+|----------|-------|-------------|
+| **Inputs** | Input | Starting point for workflow data |
+| **Outputs** | Output | Final output destination |
+| **AI** | LLM | Large Language Model processing (GPT-4, Claude) |
+| **Data** | Text, Transform, Filter, Merge, Database | Data manipulation and storage |
+| **Logic** | Conditional, Math, Loop | Branching, calculations, iteration |
+| **API** | API, Webhook | HTTP requests and triggers |
+| **Utilities** | Timer | Delay and scheduling |
 
-- InputNode, OutputNode
+---
 
-- LLMNode (for language model operations)
+## Node Abstraction Pattern
 
-- MathNode, MergeNode, ConditionalNode
+All nodes use a factory pattern for consistency and maintainability:
 
-- DataTransformNode, ApiNode, TextNode
+### Each Node File (9 lines)
+```javascript
+/**
+ * InputNode - Starting point for workflow data
+ * Generated from node registry using factory function
+ */
+import { createNodeComponent } from '../components/BaseNode/createNode';
 
-**FastAPI Backend –** Provides API endpoints to process pipeline logic.
+const InputNode = createNodeComponent('input');
 
-**Modular Architecture –** Nodes and UI components are separated for scalability.
+export default InputNode;
+```
 
+### Configuration in nodeRegistry.js
+```javascript
+export const NODE_REGISTRY = {
+  input: {
+    title: 'Input',
+    Icon: FiDownload,
+    description: 'Starting point for your workflow...',
+    category: 'Inputs',
+    colors: { bg: '...', border: '...', handle: '...' },
+    handles: [{ id: 'value', type: 'source', position: Position.Right }],
+    fields: [
+      { name: 'inputName', type: 'input', label: 'Name', ... },
+      { name: 'inputType', type: 'select', label: 'Type', options: [...] }
+    ]
+  },
+  // ... 13 more node configurations
+};
+```
 
-# 🛠️ API Documentation
+---
 
-The backend exposes a small set of APIs to analyze and validate pipelines (nodes + edges) by leveraging NetworkX (a graph library).
+## API Documentation
 
-## 1. Health Check
+The backend exposes APIs to analyze and validate pipelines using NetworkX.
 
-### Endpoint:
-
+### 1. Health Check
+```
 GET /
-
-
-### Description:
-Verifies that the backend service is running. Useful for health checks or deployment tests.
-
-### Response:
-
 ```
+**Response:**
+```json
 {
   "status": "healthy",
   "message": "VectorShift Pipeline Analysis Service is running"
 }
 ```
 
-## 2. Parse Pipeline
-
-### Endpoint:
-
-POST /pipelines/parse
-
-
-### Description:
-- Analyzes a pipeline (nodes + edges), validates connections, and detects cycles.
-
-- Builds a directed graph (DiGraph) from the provided nodes and edges.
-
-- Ensures all edges connect valid nodes.
-
-- Checks whether the graph is a DAG (Directed Acyclic Graph).
-
-- Detects cycles if present.
-
-### Request Body Example:
-
+### 2. Parse Pipeline
 ```
+POST /pipelines/parse
+```
+**Description:**
+- Validates connections between nodes
+- Counts nodes and edges
+- Detects cycles (DAG validation)
+
+**Request Body:**
+```json
 {
   "nodes": [
-    {
-      "id": "input-1",
-      "type": "InputNode",
-      "position": { "x": 0, "y": 0 },
-      "data": { "label": "Input Node" }
-    },
-    {
-      "id": "llm-1",
-      "type": "LLMNode",
-      "position": { "x": 200, "y": 100 },
-      "data": { "model": "gpt-4" }
-    }
+    { "id": "input-1", "type": "InputNode", "position": { "x": 0, "y": 0 }, "data": {} },
+    { "id": "llm-1", "type": "LLMNode", "position": { "x": 200, "y": 100 }, "data": {} }
   ],
   "edges": [
-    {
-      "id": "edge-1",
-      "source": "input-1",
-      "target": "llm-1",
-      "sourceHandle": "output",
-      "targetHandle": "input"
-    }
+    { "id": "edge-1", "source": "input-1", "target": "llm-1", "sourceHandle": "output", "targetHandle": "input" }
   ]
 }
 ```
 
-### Successful Response Example:
-
-```
+**Success Response:**
+```json
 {
   "num_nodes": 2,
   "num_edges": 1,
@@ -231,30 +256,52 @@ POST /pipelines/parse
 }
 ```
 
-
-### Error Response Example (if invalid edge):
-
-```
+**Error Response:**
+```json
 {
   "detail": "Pipeline analysis failed: Invalid edge: Node input-999 or llm-1 not found"
 }
 ```
 
-## 3. Test Cycle Detection
-
-### Endpoint:
-
-GET /test-cycle
-
-
-### Description:
-Returns a hardcoded graph with a cycle for quick testing/debugging. Useful for verifying that cycle detection logic works.
-
-### Response Example:
-
+### 3. Test Cycle Detection
 ```
+GET /test-cycle
+```
+**Response:**
+```json
 {
   "is_dag": false,
   "cycles": [["conditional-1", "llm-1", "transform-1"]]
 }
 ```
+
+---
+
+## Best Practices Implemented
+
+| Practice | Implementation |
+|----------|----------------|
+| **DRY** | Factory pattern eliminates code duplication |
+| **Single Source of Truth** | Zustand store + nodeRegistry.js |
+| **No Anti-patterns** | No unnecessary `useState` or `useEffect` in nodes |
+| **Performance** | `useMemo`, `useCallback`, `React.memo` |
+| **Responsive** | CSS variables + media queries |
+| **Clean Architecture** | Separation of concerns (config, components, store) |
+
+---
+
+## The Final Result
+
+Users can:
+- Create and connect nodes visually on the canvas
+- Drag nodes from a categorized sidebar
+- Configure node properties via forms
+- Use `{{variable}}` syntax in Text nodes for dynamic inputs
+- Submit pipelines to backend for validation
+- Receive instant feedback via toast notifications
+
+---
+
+## License
+
+MIT
