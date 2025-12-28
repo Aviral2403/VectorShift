@@ -34,19 +34,59 @@ textarea {
   stroke-width: 2;
 }
 
+/* CRITICAL: Handle positioning and size */
 .react-flow__handle {
-  width: 12px;
-  height: 12px;
-  border: 2px solid #fff;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
-  /* Critical: center handles vertically at their specified top position */
-  transform: translateY(-50%);
+  width: 12px !important;
+  height: 12px !important;
+  border: 2px solid #fff !important;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.5) !important;
+  border-radius: 50% !important;
+
+  /* CRITICAL: Center handles vertically at their specified top position */
+  /* This ensures handles align exactly with connection lines */
+  transform: translateY(-50%) !important;
+
+  /* CRITICAL: Make handles clickable and interactive */
+  pointer-events: all !important;
+  cursor: crosshair !important;
+  z-index: 100 !important;
 }
 
+/* Handle hover state for better UX */
+.react-flow__handle:hover {
+  width: 14px !important;
+  height: 14px !important;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Source handles (outputs) */
 .react-flow__handle.source {
-  background: var(--accent-success);
+  background: var(--accent-success, #10b981) !important;
+  right: -6px !important;
+  /* Position outside node */
 }
 
+/* Target handles (inputs) */
 .react-flow__handle.target {
-  background: var(--accent-primary);
+  background: var(--accent-primary, #6366f1) !important;
+  left: -6px !important;
+  /* Position outside node */
+}
+
+/* Handle when actively connecting */
+.react-flow__handle.connecting {
+  background: #ff6b6b !important;
+  width: 16px !important;
+  height: 16px !important;
+  box-shadow: 0 0 8px rgba(255, 107, 107, 0.8) !important;
+}
+
+/* Handle when valid connection target */
+.react-flow__handle.valid {
+  background: #10b981 !important;
+}
+
+/* Handle when invalid connection target */
+.react-flow__handle.invalid {
+  background: #ef4444 !important;
 }

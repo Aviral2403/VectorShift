@@ -95,7 +95,6 @@ const NODE_CONFIGS = {
     },
     handles: ['input-1', 'input-2', 'output']
   },
-  // New node types
   timer: {
     colors: {
       bg: 'rgba(100, 116, 139, 0.1)',
@@ -193,9 +192,9 @@ const BaseNode = ({
         {children}
       </div>
 
-      {/* Render handles exactly as provided from registry */}
+      {/* CRITICAL: Render handles with precise positioning from registry */}
       {handles.map((handle, index) => {
-        // Use the handle style exactly as provided - nodeRegistry calculates correct positions
+        // Use handle style from registry - this contains the exact top position
         const handleStyle = handle.style || {};
 
         return (
@@ -211,8 +210,9 @@ const BaseNode = ({
         );
       })}
 
-      {/* Render labels outside the node - matching handle positions */}
+      {/* CRITICAL: Render labels outside node, aligned with handles */}
       {handles.map((handle, index) => {
+        // Get the exact top position from handle style
         const topPosition = handle.style?.top || '50%';
 
         const labelStyle = {
@@ -230,10 +230,12 @@ const BaseNode = ({
           boxShadow: '0 1px 2px rgba(0, 0, 0, 0.08)',
           pointerEvents: 'none',
           zIndex: 5,
-          // Labels positioned OUTSIDE the node on correct side
+          // Position labels OUTSIDE the node
+          // Target handles (inputs) on LEFT: label on LEFT side
+          // Source handles (outputs) on RIGHT: label on RIGHT side
           ...(handle.type === 'target'
-            ? { right: 'calc(100% + 12px)' }  // Left handle: label outside on left
-            : { left: 'calc(100% + 12px)' }   // Right handle: label outside on right
+            ? { right: 'calc(100% + 12px)' }
+            : { left: 'calc(100% + 12px)' }
           )
         };
 

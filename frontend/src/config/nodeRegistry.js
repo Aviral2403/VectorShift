@@ -602,20 +602,64 @@ export const getNodeHandles = (nodeType, data = {}) => {
     // For text nodes, use simple centered input/output handles
     // Variables are detected and shown but don't create multiple handles
     if (nodeType === 'text') {
-        return [
-            {
-                id: 'input',
+        const text = data.text || '';
+        const variables = extractVariablesFromText(text);
+
+        // If no variables, provide a default 'input' handle so the node is usable
+        if (variables.length === 0) {
+            return [
+                {
+                    id: 'input',
+                    type: 'target',
+                    position: Position.Left,
+                    style: { top: '50%' }
+                },
+                {
+                    id: 'output',
+                    type: 'source',
+                    position: Position.Right,
+                    style: { top: '50%', transform: 'translateY(-50%)' }
+                }
+            ];
+        }
+
+        // Create an input handle for each variable, stacked vertically
+        const variableHandles = variables.map((varName, index) => {
+            const totalVars = variables.length;
+            let topPercent;
+
+            // Calculate vertical position for proper stacking
+            // We use a wide range (10% to 90%) to ensure maximum spacing
+            if (totalVars === 1) {
+                topPercent = 50;
+            } else {
+                // Distribute evenly from 10% to 90%
+                const startPercent = 10;
+                const endPercent = 90;
+                const range = endPercent - startPercent;
+                topPercent = startPercent + (index * (range / (totalVars - 1)));
+            }
+
+            return {
+                id: varName, // Handle ID is the variable name
                 type: 'target',
                 position: Position.Left,
-                style: { top: '50%' }
-            },
-            {
-                id: 'output',
-                type: 'source',
-                position: Position.Right,
-                style: { top: '50%' }
-            }
-        ];
+                style: {
+                    top: `${topPercent}%`,
+                    transform: 'translateY(-50%)'
+                }
+            };
+        });
+
+        // Always add output handle on the right (centered)
+        const outputHandle = {
+            id: 'output',
+            type: 'source',
+            position: Position.Right,
+            style: { top: '50%', transform: 'translateY(-50%)' }
+        };
+
+        return [...variableHandles, outputHandle];
     }
 
     return config.handles || [];
