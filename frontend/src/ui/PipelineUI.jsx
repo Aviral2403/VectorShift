@@ -146,6 +146,27 @@ const PipelineUI = () => {
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
+  // CRITICAL FIX: Custom connection validation that allows multiple connections
+  // to different handles on the same target node
+  const isValidConnection = useCallback((connection) => {
+    // Prevent connecting a node to itself
+    if (connection.source === connection.target) {
+      return false;
+    }
+
+    // Allow multiple connections from same source to different target handles
+    // This is the key fix - we check for unique source+sourceHandle -> target+targetHandle combinations
+    const existingConnection = edges.find(edge =>
+      edge.source === connection.source &&
+      edge.sourceHandle === connection.sourceHandle &&
+      edge.target === connection.target &&
+      edge.targetHandle === connection.targetHandle
+    );
+
+    // Only prevent connection if exact same connection already exists
+    return !existingConnection;
+  }, [edges]);
+
   return (
     <ErrorBoundary>
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
@@ -162,11 +183,19 @@ const PipelineUI = () => {
           snapToGrid={true}
           snapGrid={[20, 20]}
           connectionMode={ConnectionMode.Loose}
+          connectOnClick={true}
+          isValidConnection={isValidConnection}
+          connectionLineStyle={{
+            stroke: '#8b5cf6',
+            strokeWidth: 2
+          }}
+          connectionLineType="smoothstep"
           fitView={fitViewOnLoad}
           attributionPosition="top-right"
           minZoom={0.1}
           maxZoom={2}
           defaultEdgeOptions={{
+            type: 'smoothstep',
             style: { stroke: '#6366f1', strokeWidth: 2 },
             animated: true,
           }}

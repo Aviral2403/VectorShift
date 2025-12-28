@@ -1,7 +1,6 @@
 /**
  * Node Registry - Centralized configuration for all node types
- * This is the single source of truth for node definitions.
- * Handles, fields, colors, and defaults are all defined here.
+ * FIXED: Dynamic handle positioning for text nodes with multiple variables
  */
 import { Position } from 'reactflow';
 import {
@@ -210,7 +209,7 @@ export const NODE_REGISTRY = {
         Icon: FiDivideCircle,
         description: 'Mathematical operations. Performs calculations on input values.',
         category: 'Logic',
-        colors: COLORS.input, // Uses same green as input
+        colors: COLORS.input,
         handles: [
             { id: 'input', type: 'target', position: Position.Left },
             { id: 'output', type: 'source', position: Position.Right }
@@ -364,8 +363,6 @@ export const NODE_REGISTRY = {
         fields: [],
         staticContent: 'Combines multiple inputs into a single output stream'
     },
-
-    // ===== NEW NODES =====
 
     // Timer Node
     timer: {
@@ -569,11 +566,8 @@ export const NODE_REGISTRY = {
 
 /**
  * Get node configuration by type
- * @param {string} nodeType - The type of node
- * @returns {Object} Node configuration
  */
 export const getNodeConfig = (nodeType) => {
-    // Map React Flow node types to registry keys
     const typeMap = {
         customInput: 'input',
         customOutput: 'output',
@@ -586,7 +580,6 @@ export const getNodeConfig = (nodeType) => {
 
 /**
  * Get all node types for toolbar
- * @returns {Array} Array of node type configurations for toolbar
  */
 export const getToolbarNodes = () => {
     return Object.entries(NODE_REGISTRY).map(([key, config]) => ({
@@ -599,7 +592,7 @@ export const getToolbarNodes = () => {
 };
 
 /**
- * Get handles for a node type
+ * Get handles for a node type - FIXED VERSION
  * @param {string} nodeType - The type of node
  * @param {Object} data - Node data for dynamic handle generation
  * @returns {Array} Array of handle configurations
@@ -613,13 +606,27 @@ export const getNodeHandles = (nodeType, data = {}) => {
         const text = data.text || '';
         const variables = extractVariablesFromText(text);
 
-        const variableHandles = variables.map((varName, index) => ({
-            id: varName,
-            type: 'target',
-            position: Position.Left,
-            style: { top: `${((index + 1) * 100) / (variables.length + 1)}%` }
-        }));
+        // FIXED: Calculate proper spacing for each variable handle
+        const totalHandles = variables.length;
 
+        const variableHandles = variables.map((varName, index) => {
+            // Calculate position: evenly space handles with padding
+            // For n handles, use: (index + 1) / (n + 1) * 100%
+            const topPercent = ((index + 1) / (totalHandles + 1)) * 100;
+
+            return {
+                id: varName,
+                type: 'target',
+                position: Position.Left,
+                style: {
+                    top: `${topPercent}%`,
+                    // CRITICAL: Ensure transform is set to vertically center the handle
+                    transform: 'translateY(-50%)'
+                }
+            };
+        });
+
+        // Return variable handles first, then the output handle
         return [...variableHandles, ...config.handles];
     }
 
@@ -628,8 +635,6 @@ export const getNodeHandles = (nodeType, data = {}) => {
 
 /**
  * Extract variables from text content ({{variable}} syntax)
- * @param {string} text - Text content
- * @returns {Array} Array of variable names
  */
 export const extractVariablesFromText = (text) => {
     if (!text) return [];
@@ -650,9 +655,6 @@ export const extractVariablesFromText = (text) => {
 
 /**
  * Get default field values for a node type
- * @param {string} nodeType - The type of node
- * @param {string} nodeId - The node ID
- * @returns {Object} Default field values
  */
 export const getDefaultFieldValues = (nodeType, nodeId) => {
     const config = getNodeConfig(nodeType);

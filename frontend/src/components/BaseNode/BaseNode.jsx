@@ -1,6 +1,6 @@
 // src/components/BaseNode/BaseNode.jsx
 import React from 'react';
-import { Handle } from 'reactflow';
+import { Handle, Position } from 'reactflow';
 import './BaseNode.css';
 
 // Node type configurations with colors and handle positions
@@ -193,35 +193,49 @@ const BaseNode = ({
         {children}
       </div>
 
-      {/* Render handles directly without wrapper for proper React Flow positioning */}
-      {handles.map((handle, index) => (
-        <Handle
-          key={`${id}-${handle.id}-${index}`}
-          type={handle.type}
-          position={handle.position}
-          id={handle.id}
-          style={handle.style || {}}
-          className={`node-handle ${handle.type}`}
-        />
-      ))}
+      {/* CRITICAL FIX: Render handles with proper unique IDs */}
+      {handles.map((handle, index) => {
+        const handleStyle = {
+          ...(handle.style || {}),
+          // Ensure proper vertical positioning
+          top: handle.style?.top || `${((index + 1) * 100) / (handles.filter(h => h.type === handle.type).length + 1)}%`
+        };
 
-      {/* Render labels as separate positioned elements - OUTSIDE the node */}
-      {handles.map((handle, index) => (
-        <span
-          key={`${id}-${handle.id}-label-${index}`}
-          className={`handle-label handle-label-${handle.type}`}
-          style={{
-            position: 'absolute',
-            ...(handle.style || {}),
-            ...(handle.type === 'target'
-              ? { left: '-50px', transform: 'translateY(-50%)' }  // Outside left edge
-              : { right: '-50px', transform: 'translateY(-50%)' } // Outside right edge
-            )
-          }}
-        >
-          {handle.id}
-        </span>
-      ))}
+        return (
+          <React.Fragment key={`${id}-${handle.id}-${index}`}>
+            <Handle
+              type={handle.type}
+              position={handle.position}
+              id={handle.id}
+              style={handleStyle}
+              className={`node-handle ${handle.type}`}
+              isConnectable={true}
+            />
+            {/* Render label outside the handle */}
+            <span
+              className={`handle-label handle-label-${handle.type}`}
+              style={{
+                position: 'absolute',
+                ...handleStyle,
+                ...(handle.type === 'target'
+                  ? {
+                    left: '-60px',
+                    transform: 'translateY(-50%)',
+                    textAlign: 'right'
+                  }
+                  : {
+                    right: '-60px',
+                    transform: 'translateY(-50%)',
+                    textAlign: 'left'
+                  }
+                )
+              }}
+            >
+              {handle.id}
+            </span>
+          </React.Fragment>
+        );
+      })}
 
       {description && (
         <div className="node-description">

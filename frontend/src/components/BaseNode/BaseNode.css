@@ -60,11 +60,11 @@
 
 /* Handle Labels - Positioned outside the node */
 .handle-label {
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 500;
   color: var(--text-secondary, #64748b);
   background: rgba(255, 255, 255, 0.95);
-  padding: 1px 4px;
+  padding: 2px 6px;
   border-radius: 3px;
   white-space: nowrap;
   pointer-events: none;
@@ -73,14 +73,25 @@
   z-index: 10;
 }
 
-/* Handle Styles - Let React Flow handle positioning */
+/* CRITICAL FIX: Handle Styles - Ensure they're clickable and properly sized */
 .node-handle {
-  width: 10px !important;
-  height: 10px !important;
+  width: 12px !important;
+  height: 12px !important;
   border: 2px solid #fff !important;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3) !important;
   background: var(--node-handle, var(--accent-primary)) !important;
   border-radius: 50% !important;
+  /* CRITICAL: Make sure handles are clickable */
+  cursor: crosshair !important;
+  pointer-events: all !important;
+  /* CRITICAL: Ensure handles are on top */
+  z-index: 100 !important;
+}
+
+.node-handle:hover {
+  width: 14px !important;
+  height: 14px !important;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.5) !important;
 }
 
 .node-handle.source {
@@ -89,6 +100,13 @@
 
 .node-handle.target {
   background: var(--node-handle, var(--accent-primary)) !important;
+}
+
+/* Ensure handle is visible when connecting */
+.node-handle.connecting {
+  background: #ff6b6b !important;
+  width: 16px !important;
+  height: 16px !important;
 }
 
 /* Variables Info */
